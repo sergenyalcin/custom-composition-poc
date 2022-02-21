@@ -15,19 +15,20 @@ spec:
   initContainers:
     - name: prep-resources
       image: sergenyalcin10/custom-composition-poc:2.0-alpha
-      command: ['sh', '-c', 'mv /resources /data/']
+      command: ['sh', '-c', 'wget https://raw.githubusercontent.com/sergenyalcin/custom-composition-poc/main/resources/resource1.yaml -O /data/resource1.yaml &&
+      wget https://raw.githubusercontent.com/sergenyalcin/custom-composition-poc/main/resources/resource2.yaml -O /data/resource2.yaml ']
       volumeMounts:
         - name: ex-storage
           mountPath: /data/
     - name: set-first-annotation
       image: sergenyalcin10/custom-composition-poc:2.0-alpha
-      command: ['sh', '-c', 'kpt fn eval /data/resources --exec /set-annotations -- testAnnotationKey=testAnnotationValue']
+      command: ['sh', '-c', 'kpt fn eval /data --exec /set-annotations -- testAnnotationKey=testAnnotationValue']
       volumeMounts:
         - name: ex-storage
           mountPath: /data/
     - name: set-first-label
       image: sergenyalcin10/custom-composition-poc:2.0-alpha
-      command: [ 'sh', '-c', 'kpt fn eval /data/resources --exec /set-labels -- testLabelKey=testLabelValue' ]
+      command: [ 'sh', '-c', 'kpt fn eval /data --exec /set-labels -- testLabelKey=testLabelValue' ]
       volumeMounts:
         - name: ex-storage
           mountPath: /data/
