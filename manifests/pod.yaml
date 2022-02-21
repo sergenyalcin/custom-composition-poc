@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: krm-test
+  labels:
+    app: krm
+spec:
+  containers:
+    - name: debug-resources
+      image: sergenyalcin10/custom-composition-poc:2.0-alpha
+      command: ['sh', '-c', 'sleep infinity']
+      volumeMounts:
+        - name: ex-storage
+          mountPath: /data/
+  initContainers:
+    - name: prep-resources
+      image: sergenyalcin10/custom-composition-poc:2.0-alpha
+      command: ['sh', '-c', 'mv /resources /data/']
+      volumeMounts:
+        - name: ex-storage
+          mountPath: /data/
+    - name: set-first-annotation
+      image: sergenyalcin10/custom-composition-poc:2.0-alpha
+      command: ['sh', '-c', 'kpt fn eval /data/resources --exec /set-annotations -- testAnnotationKey=testAnnotationValue']
+      volumeMounts:
+        - name: ex-storage
+          mountPath: /data/
+    - name: set-first-label
+      image: sergenyalcin10/custom-composition-poc:2.0-alpha
+      command: [ 'sh', '-c', 'kpt fn eval /data/resources --exec /set-labels -- testLabelKey=testLabelValue' ]
+      volumeMounts:
+        - name: ex-storage
+          mountPath: /data/
+  volumes:
+    - name: ex-storage
+      emptyDir: {}
