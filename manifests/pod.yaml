@@ -20,15 +20,21 @@ spec:
       volumeMounts:
         - name: ex-storage
           mountPath: /data/
-    - name: set-first-annotation
+    - name: set-annotation
       image: sergenyalcin10/custom-composition-poc:2.0-alpha
-      command: ['sh', '-c', 'kpt fn eval /data --exec /set-annotations -- testAnnotationKey=testAnnotationValue']
+      command: ['sh', '-c', 'kpt fn eval /data --exec /set-annotations -- key=value']
       volumeMounts:
         - name: ex-storage
           mountPath: /data/
     - name: set-first-label
       image: sergenyalcin10/custom-composition-poc:2.0-alpha
-      command: [ 'sh', '-c', 'kpt fn eval /data --exec /set-labels -- testLabelKey=testLabelValue' ]
+      command: [ 'sh', '-c', 'kpt fn eval /data --exec /set-labels -- app=poc' ]
+      volumeMounts:
+        - name: ex-storage
+          mountPath: /data/
+    - name: set-second-label
+      image: sergenyalcin10/custom-composition-poc:2.0-alpha
+      command: [ 'sh', '-c', 'kpt fn eval /data --exec /set-labels -- release=demo' ]
       volumeMounts:
         - name: ex-storage
           mountPath: /data/
