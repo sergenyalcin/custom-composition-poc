@@ -21,14 +21,15 @@ affected after the krm functions applied.
 
 ### Init Containers
 
-All pipeline works in only one pod. This pod has three init containers:
+All pipeline works in only one pod. This pod has four init containers:
 
 - prep-resources: Downloads the resources and stores these resources
 in ephemeral storage of the pod. This ephemeral storage was used for the input output 
 pipeline.
-- set-first-annotation: Sets `testAnnotationValue` annotation value for the `testAnnotationKey`
+- set-annotation: Sets `value` annotation value for the `key`
 key.
-- set-first-label: Sets `testLabelValue` label value for the `testLabelKey` key.
+- set-first-label: Sets `poc` label value for the `app` key.
+- set-second-label: Sets `demo` label value for the `release` key.
 
 ### Containers
 
