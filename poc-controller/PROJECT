@@ -1,0 +1,16 @@
+domain: sergenyalcin.io
+layout:
+- go.kubebuilder.io/v3
+projectName: poc-controller
+repo: sergenyalcin.io/poc
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: sergenyalcin.io
+  group: poc
+  kind: CustomComposition
+  path: sergenyalcin.io/poc/api/v1alpha1
+  version: v1alpha1
+version: "3"

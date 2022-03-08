@@ -1,0 +1,24 @@
+apiVersion: poc.sergenyalcin.io/v1alpha1
+kind: CustomComposition
+metadata:
+  name: example-2
+spec:
+  resource: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: example-service
+    spec:
+      selector:
+        app: example-app
+      ports:
+        - protocol: TCP
+          port: 80
+          targetPort: 9376
+  functions:
+    - title: set-labels-1
+      image: sergenyalcin10/set-labels:1.0-alpha
+      args: app=poc
+    - title: set-labels-2
+      image: sergenyalcin10/set-labels:1.0-alpha
+      args: release=demo

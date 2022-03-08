@@ -1,0 +1,28 @@
+apiVersion: poc.sergenyalcin.io/v1alpha1
+kind: CustomComposition
+metadata:
+  name: example-1
+spec:
+  resource: |
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: example-pod
+    spec:
+      containers:
+        - name: example-container
+          image: nginx
+          ports:
+            - name: web
+              containerPort: 80
+              protocol: TCP
+  functions:
+    - title: set-annotations
+      image: sergenyalcin10/set-annotations:1.0-alpha
+      args: key=value
+    - title: set-labels-1
+      image: sergenyalcin10/set-labels:1.0-alpha
+      args: app=poc
+    - title: set-labels-2
+      image: sergenyalcin10/set-labels:1.0-alpha
+      args: release=demo

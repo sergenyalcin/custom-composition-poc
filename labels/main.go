@@ -8,7 +8,7 @@ import (
 	"sigs.k8s.io/kustomize/kyaml/yaml"
 )
 
-func main(){
+func main() {
 	// create a struct matching the structure of ResourceList.FunctionConfig to hold its data
 	var config struct {
 		Data map[string]string `yaml:"data"`
@@ -16,7 +16,7 @@ func main(){
 	fn := func(items []*yaml.RNode) ([]*yaml.RNode, error) {
 		for i := range items {
 			for k, v := range config.Data {
-				err := items[i].PipeE(yaml.SetLabel(k,v))
+				err := items[i].PipeE(yaml.SetLabel(k, v))
 				if err != nil {
 					return nil, err
 				}

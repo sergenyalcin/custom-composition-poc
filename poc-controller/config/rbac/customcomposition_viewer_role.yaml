@@ -1,0 +1,20 @@
+# permissions for end users to view customcompositions.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: customcomposition-viewer-role
+rules:
+- apiGroups:
+  - poc.sergenyalcin.io
+  resources:
+  - customcompositions
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - poc.sergenyalcin.io
+  resources:
+  - customcompositions/status
+  verbs:
+  - get

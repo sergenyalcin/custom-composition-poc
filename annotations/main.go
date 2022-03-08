@@ -17,7 +17,7 @@ func main() {
 	fn := func(items []*yaml.RNode) ([]*yaml.RNode, error) {
 		for i := range items {
 			for k, v := range config.Data {
-				err := items[i].PipeE(yaml.SetAnnotation(k,v))
+				err := items[i].PipeE(yaml.SetAnnotation(k, v))
 				if err != nil {
 					return nil, err
 				}
