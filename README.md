@@ -5,6 +5,8 @@ feature in [Crossplane] project.
 
 [kpt] tool is used for rendering the resources with custom krm functions.
 
+## PART 1
+
 ### Functions
 
 In this POC, there are two custom krm functions that are implemented in Go.
@@ -50,6 +52,46 @@ this approach is successful. (ConfigMaps were not used for POC.)
 So for some custom functions and supports the library will be very useful.
 - As a next step a real-life scenario can be added for this POC repository e.g.
 conditional manipulation.
+
+## PART 2
+
+In the second part of this POC, the same custom KRM functions are used. In the first part,
+both two functions were located in the same image. Now, two custom KRM function images were
+built:
+
+- sergenyalcin10/set-annotations:1.0-alpha
+- sergenyalcin10/set-labels:1.0-alpha
+
+In second part, a standalone controller was implemented that takes a CRD with an input K8s
+resource manifest and array of the KRM functions. Then the controller reconciles the CRD by 
+running the KRM functions by using the kpt tool. For running the KRM functions, kubernetes pods
+were used.
+
+To put it simply, the operations done through the pod manifest in the first part were done 
+using a controller and crd. The basic concept is the same.
+
+The Part 2 was located in poc-controller directory. CRD manifest and examples are in the config
+sub-directory.
+
+### Results - Future Work
+
+- Currently, the input of KRM functions is embedded in the spec of the corresponding CR. This 
+input is transferred to a file in the first init container (prep-resource) and processed on it. 
+Other methods can be developed to get the input and the user can use what she wants. Even the use 
+of existing resources in the cluster as inputs can even be supported.
+
+- Like part one, output locates under the /data directory in the container. And the pod is left 
+running to validate the operation. However, a method has not been developed to export this output 
+from the relevant container. The next step may be related to this method. Here, the issue of 
+stdin/stdout, which we have been talking about since the beginning, has come to the fore again.
+
+- The currently working controller is pretty straightforward. It is assumed that the values in the 
+spec are immutable. That is, if the relevant CR is edited and the image is changed, no action is 
+taken. This may be one of the points to be discussed.
+
+- When creating containers in which KRM functions will run, it is assumed that the file to be executed 
+is in a certain path (/function). There is already an issue on this subject. There is also a comment from Nic. 
+Please see: https://github.com/GoogleContainerTools/kpt/issues/2567#issuecomment-1056010936
 
 [Custom Composition]: https://github.com/crossplane/crossplane/issues/2524
 [Crossplane]: https://github.com/crossplane/crossplane
