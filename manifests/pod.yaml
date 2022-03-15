@@ -7,34 +7,34 @@ metadata:
 spec:
   containers:
     - name: debug-resources
-      image: sergenyalcin10/custom-composition-poc:2.0-alpha
+      image: sergenyalcin10/custom-composition-poc:3.0-alpha
       command: ['sh', '-c', 'sleep infinity']
       volumeMounts:
         - name: ex-storage
           mountPath: /data/
   initContainers:
     - name: prep-resources
-      image: sergenyalcin10/custom-composition-poc:2.0-alpha
+      image: sergenyalcin10/custom-composition-poc:3.0-alpha
       command: ['sh', '-c', 'wget https://raw.githubusercontent.com/sergenyalcin/custom-composition-poc/main/resources/resource1.yaml -O /data/resource1.yaml &&
       wget https://raw.githubusercontent.com/sergenyalcin/custom-composition-poc/main/resources/resource2.yaml -O /data/resource2.yaml ']
       volumeMounts:
         - name: ex-storage
           mountPath: /data/
     - name: set-annotation
-      image: sergenyalcin10/custom-composition-poc:2.0-alpha
-      command: ['sh', '-c', 'kpt fn eval /data --exec /set-annotations -- key=value']
+      image: sergenyalcin10/set-annotations:1.0-alpha
+      command: ['sh', '-c', 'kpt fn eval /data --exec /function -- key=value']
       volumeMounts:
         - name: ex-storage
           mountPath: /data/
     - name: set-first-label
-      image: sergenyalcin10/custom-composition-poc:2.0-alpha
-      command: [ 'sh', '-c', 'kpt fn eval /data --exec /set-labels -- app=poc' ]
+      image: sergenyalcin10/set-labels:1.0-alpha
+      command: [ 'sh', '-c', 'kpt fn eval /data --exec /function -- app=poc' ]
       volumeMounts:
         - name: ex-storage
           mountPath: /data/
     - name: set-second-label
-      image: sergenyalcin10/custom-composition-poc:2.0-alpha
-      command: [ 'sh', '-c', 'kpt fn eval /data --exec /set-labels -- release=demo' ]
+      image: sergenyalcin10/set-labels:1.0-alpha
+      command: [ 'sh', '-c', 'kpt fn eval /data --exec /function -- release=demo' ]
       volumeMounts:
         - name: ex-storage
           mountPath: /data/
