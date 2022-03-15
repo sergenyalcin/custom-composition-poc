@@ -93,6 +93,36 @@ taken. This may be one of the points to be discussed.
 is in a certain path (/function). There is already an issue on this subject. There is also a comment from Nic. 
 Please see: https://github.com/GoogleContainerTools/kpt/issues/2567#issuecomment-1056010936
 
+### Using CronJobs
+
+As an extension, a new controller was added to the POC. It is located in the following path:
+`poc-controller/controllers/customcomposition_cj_controller.go`
+
+When you change the `main.go:81`:
+
+from -> `if err = &controllers.CustomCompositionReconciler`
+
+to -> `if err = &controllers.CustomCompositionCjReconciler`
+
+you can use the new controller.
+
+This controller provisions a CronJob instead of a Pod. 
+Related issue: https://github.com/crossplane/crossplane/issues/2959
+
+I didn't observe a very clear advantage or disadvantage of generating a CronJob instead of pod. 
+However, as I mentioned before (in public doc), it seems more beneficial to us in terms of seeing the whole flow. 
+For example, I think it would be much easier to observe operations through CronJob and make the 
+relevant checks, instead of tracking individual pods created in a certain period of time.
+
+Actually, in action, functions work in init containers fot both ways. However, using an abstraction like 
+CronJob at the higher level seems to be very useful, especially in operational terms, for the reasons I 
+mentioned above.
+
+As you know, it is Kubernetes' suggestion to carry out the work to be done in a certain period and schedule 
+through CronJobs and the CronJob resource has been created for this exact purpose and reason.
+
+As a result, I think that the use of CronJob would be more appropriate for the relevant situation.
+
 [Custom Composition]: https://github.com/crossplane/crossplane/issues/2524
 [Crossplane]: https://github.com/crossplane/crossplane
 [kpt]: https://kpt.dev/book/04-using-functions/
