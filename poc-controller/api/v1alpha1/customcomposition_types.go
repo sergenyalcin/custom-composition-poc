@@ -51,7 +51,7 @@ type StatusCondition struct {
 
 	Message string `json:"message,omitempty"`
 
-	Completed *bool `json:"completed"`
+	Completed *bool `json:"completed,omitempty"`
 }
 
 // CustomCompositionStatus defines the observed state of CustomComposition

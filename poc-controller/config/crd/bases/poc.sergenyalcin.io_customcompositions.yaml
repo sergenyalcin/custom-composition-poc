@@ -68,8 +68,6 @@ spec:
                       type: string
                     operation:
                       type: string
-                  required:
-                  - completed
                   type: object
                 type: array
               state:
