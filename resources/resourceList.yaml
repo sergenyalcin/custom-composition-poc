@@ -1,0 +1,29 @@
+apiVersion: config.kubernetes.io/v1
+kind: ResourceList
+items:
+  - apiVersion: database.example.org/v1alpha1
+    kind: XPostgreSQLInstance
+    metadata:
+      name: my-db
+      annotations:
+        fn.crossplane.io/type: "CompositeResource"
+        key: value
+    spec:
+      parameters:
+        storageGB: 20
+  - apiVersion: database.example.org/v1alpha1
+    kind: XPostgreSQLInstance
+    metadata:
+      name: my-db-2
+      annotations:
+        fn.crossplane.io/type: "CompositeResource"
+    spec:
+      parameters:
+        storageGB: 20
+  - apiVersion: database.example.org/v1alpha1
+    kind: XPostgreSQLInstance
+    metadata:
+      name: my-db-3
+    spec:
+      parameters:
+        storageGB: 20
